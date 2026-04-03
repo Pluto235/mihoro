@@ -14,6 +14,12 @@
 
 ---
 
+> This repository is a personal fork / modified version of the original **mihoro** project for my own remote Linux server workflow.
+>
+> Upstream project: [spencerwooo/mihoro](https://github.com/spencerwooo/mihoro) by [@spencerwooo](https://github.com/spencerwooo).
+>
+> This fork keeps the upstream foundation and adds my own server-oriented defaults and documentation.
+
 **mihoro** - The 🦀 Rust™-based [Mihomo](https://github.com/MetaCubeX/mihomo) CLI client on Linux.
 
 - Setup, update, apply overrides, and manage with systemd. **No more, no less.**
@@ -63,11 +69,11 @@ port = 7891
 socks_port = 7892
 mixed_port = 7890
 allow_lan = false
-bind_address = "*"
+bind_address = "127.0.0.1"
 mode = "rule"
 log_level = "info"
 ipv6 = true
-external_controller = "0.0.0.0:9090"
+external_controller = "127.0.0.1:9090"
 external_ui = "ui"
 geodata_mode = false
 geo_auto_update = true
@@ -104,13 +110,13 @@ mihoro setup
 To configure proxy for the current terminal session:
 
 ```bash
-eval $(mihoro proxy export)
+eval "$(mihoro proxy export)"
 ```
 
 To revert proxy settings:
 
 ```bash
-eval $(mihoro proxy unset)
+eval "$(mihoro proxy unset)"
 ```
 
 To check running status of `mihomo` core:
@@ -233,3 +239,35 @@ You can also put the static files of these dashboards under the `external_ui` di
 ## License
 
 [MIT](LICENSE)
+
+
+## What I Changed In This Fork
+
+This fork stays intentionally close to upstream, but is customized for my real remote Linux server workflow:
+
+- safer default binding for generated `mihomo` config (`127.0.0.1` instead of public-facing defaults)
+- a documented SSH-first workflow for terminal proxy usage
+- a documented dashboard workflow using SSH local port forwarding instead of exposing the controller publicly
+- an additional operator guide for deployment and day-to-day management on remote servers
+
+These changes are meant to reduce accidental exposure on remote hosts while keeping upstream behavior and CLI ergonomics largely intact.
+
+## Remote Server Workflow
+
+If you use `mihoro` on a remote Linux machine, see [docs/remote-server-guide.md](docs/remote-server-guide.md).
+
+Highlights:
+
+- config locations for `mihoro` and `mihomo`
+- service management commands
+- per-shell proxy enable / disable commands
+- interactive-shell auto-enable pattern after SSH login
+- dashboard access through SSH port forwarding
+
+## Acknowledgement
+
+This project is based on the original `mihoro` created and maintained by [@spencerwooo](https://github.com/spencerwooo).
+
+- Upstream repository: [spencerwooo/mihoro](https://github.com/spencerwooo/mihoro)
+- Core idea and implementation credit belong to the upstream project
+- This fork only adds a small set of workflow-oriented defaults and documentation for my own usage
